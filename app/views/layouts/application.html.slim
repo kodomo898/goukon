@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    title
+      | Union
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    header
+      - if @current_user
+        .header-logo
+          = link_to("Union", "/posts/index")
+      - else
+        .header-logo
+          = link_to("Union", "/")
+      ul.header-menus
+        - if @current_user
+          li
+            = link_to(@current_user.name, "/users/#{@current_user.id}")
+          li
+            = link_to("投稿一覧", "/posts/index")
+          li
+            = link_to("新規投稿", "/posts/new")
+          li
+            = link_to("ユーザー一覧", "/users/index")
+          li
+            = link_to("ログアウト", "/logout", {method: :post})
+        - else
+          li
+            = link_to("Unionとは", "/about")
+          li
+            = link_to("新規登録", "/users/sign_up")
+          li
+            = link_to("ログイン", "/users/sign_in")
+    - if flash[:notice]
+      .flash
+        = flash[:notice]
+    = yield
